@@ -11,6 +11,7 @@ class Data():
 
     def __init__(self, data={}):
         self.data = data
+        self.total = 0
 
     def update_entry(self, in_date, out_date, key_fn):
 
@@ -22,12 +23,14 @@ class Data():
 
         point.add_period(period)
         point.add_seconds(period.get_delta().seconds)
+        self.total += period.get_delta().seconds
 
         self.data.update({key: point})
 
     def show(self):
 
         print(f'{app_name} ##################################################################')
+        
         for key, point in self.data.items():
 
             delta = point.get_delta()
@@ -45,6 +48,9 @@ class Data():
               st = hours, (delta.seconds//60)%60
 
             print(f'{key} - {st[0]}h {st[1]}\'')
+
+        print('------------------------------------------------')
+        print(f'Total: {datetime.timedelta(seconds=self.total)}')
 
 class Point:
 
